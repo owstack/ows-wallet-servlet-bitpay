@@ -21,13 +21,10 @@ angular.module('owsWalletPlugin.services').service('bitpayService', function ($r
     // Hold on to my session object.
     session = sessionObj;
 
-    // Ask my session to retrieve my plugin information.
-    session.getPlugin().then(function(plugin) {
-      // Set some properties.
-      root.servletName = session.plugin.header.name;
+    // Set some properties.
+    root.servletName = session.plugin.header.name;
 
-      cb();
-    });
+    cb();
   };
 
   // Read plugin data from persistent storage via the session object. Here we read from a data key that stores
