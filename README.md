@@ -1,7 +1,7 @@
-OWS Wallet Servlet Plugin - BitPay
+OWS Wallet Servlet - BitPay
 =======
 
-A OWS Wallet servlet plugin that provides BitPay invoice API services.
+A OWS Wallet servlet plugin that provides BitPay API services.
 
 ## Main Features
 
