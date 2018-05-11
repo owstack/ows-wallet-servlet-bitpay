@@ -56,9 +56,10 @@ Session.vim
 .sass-cache
 plugin/shared/sass/overrides
 
-# www
+# www and api
 # All content copied into place by grunt.
 www/*
+api/*
 
 # templates
 /ionic.config.json

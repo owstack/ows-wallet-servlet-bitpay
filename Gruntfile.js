@@ -18,14 +18,53 @@ module.exports = function(grunt) {
           grunt.log.writeln('Waiting for more changes...');
         }
       },
+      css: {
+        files: ['src/css/*.css'],
+        tasks: ['concat:css']
+      },
       main: {
         files: [
           'plugin/plugin.js',
           'plugin/plugin.init.js',
           'plugin/shared/**/*.js',
-          'plugin/services/**/*.js'
+          'plugin/services/**/*.js',
+          'plugin/components/**/*.js'
         ],
         tasks: ['concat:js']
+      }
+    },
+    sass: {
+      // Plugin base css; one css file for plugin
+      plugin: {
+        options: {
+          style: 'compact',
+          sourcemap: 'none'
+        },
+        files: [{
+          expand: true,
+          flatten: true,
+          src: ['plugin/shared/sass/main.scss'],
+          dest: 'www/css/',
+          ext: '.css'
+        }]
+      },
+      // Applet skins css; one css file per skin
+      skins: {
+        options: {
+          style: 'compact',
+          sourcemap: 'none'
+        },
+        files: [{
+          expand: true,
+          flatten: false,
+          cwd: 'plugin/skins/',
+          src: ['**/main.scss'],
+          dest: 'www/skins/',
+          ext: '.css',
+          rename: function (dest, src) {
+            return dest + src.replace('/sass', '/css');
+          }
+        }]
       }
     },
     concat: {
@@ -38,9 +77,21 @@ module.exports = function(grunt) {
           'plugin/plugin.js',
           'plugin/plugin.init.js',
           'plugin/shared/**/*.js',
-          'plugin/services/**/*.js'
+          'plugin/services/**/*.js',
+          'plugin/components/**/*.js',
+          'plugin/api/handlers/**/*.js'
         ],
         dest: 'www/js/plugin.js'
+      },
+      plugin_css: {
+        src: ['www/css/main.css'],
+        dest: 'www/css/main.css'
+      },
+      plugin_api_js: {
+        src: [
+          'plugin/api/*.js'
+        ],
+        dest: 'api/api.js'
       },
     },
     uglify: {
@@ -57,6 +108,7 @@ module.exports = function(grunt) {
       pot: {
         files: {
           'i18n/po/template.pot': [
+            'plugin/**/*.html',
             'plugin/**/*.js'
           ]
         }
@@ -88,6 +140,20 @@ module.exports = function(grunt) {
         src: 'index.html',
         dest: 'www/'
       },
+      plugin_views: {
+        expand: true,
+        flatten: false,
+        cwd: 'plugin/components',
+        src: '**/*.html',
+        dest: 'www/views/'
+      },
+      plugin_shared: {
+        expand: true,
+        flatten: false,
+        cwd: 'plugin/shared',
+        src: '**/*.html',
+        dest: 'www/shared/'
+      },
       plugin_imgs: {
         expand: true,
         flatten: false,
@@ -95,11 +161,40 @@ module.exports = function(grunt) {
         src: '**/*',
         dest: 'www/img/'
       },
+      plugin_skins: {
+        expand: true,
+        flatten: false,
+        cwd: 'plugin/assets/skins',
+        src: [
+          '**/*',
+          '!**/sass/**' // Don't bring sass files into the app
+        ],
+        dest: 'www/skins/'
+      },
+      ionic_fonts: {
+        expand: true,
+        flatten: true,
+        src: 'bower_components/ionic/release/fonts/ionicons.*',
+        dest: 'www/fonts/'
+      },
+      ionic_css: {
+        expand: true,
+        flatten: true,
+        src: 'bower_components/ionic/release/css/ionic.min.css',
+        dest: 'www/css/'
+      },      
+      ionic_js: {
+        expand: true,
+        flatten: true,
+        src: 'bower_components/ionic/release/js/ionic.bundle.min.js',
+        dest: 'www/lib/'
+      },      
       release: {
         expand: true,
         flatten: false,
         cwd: '',
         src: [
+          'api/**/*',
           'www/**/*',
           'plugin.json'
         ],
@@ -121,20 +216,37 @@ module.exports = function(grunt) {
         cwd: '',
         src: 'node_modules/@owstack/ows-wallet-plugin-client/release/ows-wallet-pre.min.js',
         dest: 'www/lib/ows-wallet-pre.js'
+      },
+      pre_css: {
+        expand: false,
+        flatten: false,
+        cwd: '',
+        src: 'node_modules/@owstack/ows-wallet-plugin-client/release/ows-wallet-pre.css',
+        dest: 'www/css/ows-wallet-pre.css'
       }
     }
   });
 
   grunt.registerTask('base', [
     'clean:www',
+    'sass',
     'concat:plugin_js',
+    'concat:plugin_api_js',
+    'concat:plugin_css',
+    'copy:plugin_index',
+    'copy:plugin_views',
     'copy:plugin_shared',
-    'copy:plugin_imgs'
+    'copy:plugin_imgs',
+    'copy:plugin_skins'
   ]);
 
   grunt.registerTask('default', [
     'base',
-    'copy:pre_js'
+    'copy:pre_js',
+    'copy:pre_css',
+    'copy:ionic_fonts',
+    'copy:ionic_css',
+    'copy:ionic_js'
   ]);
 
   grunt.registerTask('release', [
