@@ -1,0 +1,18 @@
+{
+  "packageName": "@owstack/ows-wallet-servlet-bitpay",
+  "version": "0.0.1",
+  "name": "bitpay servlet",
+  "nameNoSpace": "bitpayservlet",
+  "nameCase": "BitPay Servlet",
+  "nameCaseNoSpace": "BitPayServlet",
+  "pluginId": "org.openwalletstack.wallet.plugin.servlet.bitpay",
+  "pluginKind": "servlet",
+  "userVisibleName": "BitPay Servlet",
+  "description": "An OWS Wallet servlet plugin for BitPay API.",
+  "author": "Open Wallet Stack",
+  "url": "https://openwalletstack.org",
+  "gitHubRepoGitUrl": "git://github.com/owstack/ows-wallet-servlet-bitpay.git",
+  "gitHubRepoBugs": "https://github.com/owstack/ows-wallet-servlet-bitpay/issues",
+  "supportUrl": "https://github.com/owstack/ows-wallet-servlet-bitpay/issues",
+  "disclaimerUrl": "https://openwalletstack.org/disclaimer"
+}

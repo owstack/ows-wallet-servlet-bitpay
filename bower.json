@@ -1,0 +1,11 @@
+{
+  "name": "ows-wallet-servlet-bitpay",
+  "keywords": [
+    "ows",
+    "ows wallet",
+    "wallet",
+    "plugin"
+  ],
+  "dependencies": {
+  }
+}

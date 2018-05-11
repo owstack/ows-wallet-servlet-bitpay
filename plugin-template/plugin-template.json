@@ -1,0 +1,44 @@
+{
+  "header": {
+    "id": "*PLUGINID*",
+    "kind": "*PLUGINKIND*",
+    "name": "*USERVISIBLENAME*",
+    "version": "*VERSION*",
+    "description": "*DESCRIPTION*",
+    "author": "*AUTHOR*",
+    "url": {
+      "marketing": "*URL*",
+      "support": "*SUPPORTURL*",
+      "privacy": "*DISCLAIMERURL*"
+    }
+  },
+  "permissions": {
+    "delete": false
+  },
+  "galleryImage": "<resource-0>",
+  "previewImage": "<resource-1>",
+  "iconImage": "<resource-2>",
+  "store": {
+    "id": "0",
+    "rating": "4+",
+    "price": {
+      "amount": "0",
+      "currency": "USD"
+    },
+    "category": {
+      "primary": "General",
+      "secondary": "OWS"
+    },
+    "keywords": [
+      "ows",
+      "plugin",
+      "servlet"
+    ]
+  },
+  "resources": [
+    "<plugin-path>/img/gallery.png",
+    "<plugin-path>/img/preview.png",
+    "<plugin-path>/img/icon.png"
+  ],
+  "dependencies": {}
+}
