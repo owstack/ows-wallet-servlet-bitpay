@@ -132,8 +132,6 @@ angular.module('owsWalletPluginClient.api').factory('CBitPayInvoice', function (
   function CBitPayInvoice(invoiceObj) {
     lodash.assign(this, invoiceObj);
     return this;
-    };
-
   };
  
   return CBitPayInvoice;

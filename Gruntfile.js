@@ -125,6 +125,9 @@ module.exports = function(grunt) {
       }
     },
     clean: {
+      api: [
+        'api/'
+      ],
       www: [
         'www/'
       ],
@@ -228,6 +231,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('base', [
+    'clean:api',
     'clean:www',
     'sass',
     'concat:plugin_js',
