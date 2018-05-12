@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginApi').service('createInvoice', function(lodash, CHttp) {
+angular.module('owsWalletPlugin.api').service('createInvoice', function(lodash, CHttp) {
 
 	var root = {};
 

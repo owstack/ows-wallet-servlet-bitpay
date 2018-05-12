@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletPluginClient.api').factory('CBitPay', function ($log) {
+angular.module('owsWalletPlugin.api').factory('CBitPay', function ($log) {
 
   /**
    * Constructor.
@@ -88,7 +88,7 @@ angular.module('owsWalletPluginClient.api').factory('CBitPay', function ($log) {
 
 'use strict';
 
-angular.module('owsWalletPluginClient.api').factory('CBitPayInvoice', function (lodash) {
+angular.module('owsWalletPlugin.api').factory('CBitPayInvoice', function (lodash) {
 
   /**
    * Sample invoice reponse
