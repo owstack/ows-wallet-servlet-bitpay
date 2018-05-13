@@ -28,8 +28,6 @@ angular.module('owsWalletPlugin.api').factory('CBitPay', function ($log) {
   function CBitPay(config) {
     var servletConfig = config;
 
-    return this;
-
     /**
      * Public functions
      */
@@ -81,6 +79,7 @@ angular.module('owsWalletPlugin.api').factory('CBitPay', function ($log) {
       return new ApiMessage(request).send();
     };
 
+    return this;
   };
  
   return CBitPay;
