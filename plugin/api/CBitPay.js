@@ -26,7 +26,7 @@ angular.module('owsWalletPlugin.api').factory('CBitPay', function ($log) {
    *   Exmaple ['buyer.name', 'buyer.email', 'buyer.phone' , 'buyer.address1' , 'buyer.locality', 'buyer.region', 'buyer.postalCode']
    */
   function CBitPay(config) {
-    var servletConfig = config;
+    var _config = config;
 
     /**
      * Public functions
@@ -70,7 +70,7 @@ angular.module('owsWalletPlugin.api').factory('CBitPay', function ($log) {
         method: 'POST',
         url: '/bitpay/invoices',
         data: {
-          servletConfig: _config,
+          config: _config,
           data: data
         },
         responseObj: 'CBitPayInvoice',

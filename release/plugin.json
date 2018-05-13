@@ -4,7 +4,7 @@
     "id": "org.openwalletstack.wallet.plugin.servlet.bitpay",
     "kind": "servlet",
     "name": "BitPay Servlet",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "description": "An OWS Wallet servlet plugin for BitPay API.",
     "author": "Open Wallet Stack",
     "url": {

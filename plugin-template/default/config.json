@@ -1,6 +1,6 @@
 {
   "packageName": "@owstack/ows-wallet-servlet-bitpay",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "name": "bitpay servlet",
   "nameNoSpace": "bitpayservlet",
   "nameCase": "BitPay Servlet",
