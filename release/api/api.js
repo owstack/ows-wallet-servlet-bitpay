@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletPlugin.api').factory('CBitPay', function ($log, ApiMessage) {
+angular.module('owsWalletPlugin.api').factory('CBitPay', function (lodash, ApiMessage, CSession) {
 
   /**
    * Constructor.
@@ -25,8 +25,12 @@ angular.module('owsWalletPlugin.api').factory('CBitPay', function ($log, ApiMess
    * invoice.required - an array of strings listing the required field for creating an invoice.
    *   Exmaple ['buyer.name', 'buyer.email', 'buyer.phone' , 'buyer.address1' , 'buyer.locality', 'buyer.region', 'buyer.postalCode']
    */
-  function CBitPay(config) {
-    var _config = config;
+  function CBitPay(store) {
+    var config = CSession.getInstance().plugin.dependencies['org.openwalletstack.wallet.plugin.servlet.bitpay'][store];
+
+    if (!config) {
+      return;
+    }
 
     /**
      * Public functions
@@ -70,10 +74,10 @@ angular.module('owsWalletPlugin.api').factory('CBitPay', function ($log, ApiMess
         method: 'POST',
         url: '/bitpay/invoices',
         data: {
-          config: _config,
+          config: config,
           data: data
         },
-        responseObj: 'CBitPayInvoice',
+        responseObj: 'CBitPayInvoice'
       }
 
       return new ApiMessage(request).send();

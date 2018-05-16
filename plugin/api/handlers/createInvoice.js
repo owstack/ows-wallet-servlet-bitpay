@@ -1,20 +1,44 @@
 'use strict';
 
-angular.module('owsWalletPlugin.api').service('createInvoice', function(lodash, CHttp) {
+angular.module('owsWalletPlugin.api').service('createInvoice', function(lodash, CHttp, CSession) {
 
 	var root = {};
 
+	/**
+	 * config - The configuration from the defining plugin; see plugin.json.
+	 * data - The invoice data payload to be put on the request.
+	 *
+	 * config = {
+	 *   api: {
+	 *     url: <string>,
+	 *     auth: {
+	 *       token: <string>
+	 *     }, 
+	 *     invoice: {
+	 *       transactionSpeed: <string>,
+	 *       notificationEmail: <string>,
+	 *       notificationURL: <string>,
+	 *       requiredFields: [<string>]
+	 *     }
+	 *   }
+	 * }
+   *
+   * where,
+   *
+   * requiredFields - an array of strings indicating each specifying an invoice field.
+   *   Example: ['buyer.name', 'buyer.email']
+	 */
+
 	var REQUIRED_PARAMS = [
-		'price',
-		'currency'
+		'config.api.url',
+		'config.api.auth.token',
+		'data.price',
+		'data.currency'
 	];
 
   root.respond = function(message, callback) {
-	  // Request parameters.
-    var data = message.request.data;
-
     // Check required parameters.
-    var validRequest = Object.keys(lodash.pick(data, REQUIRED_PARAMS)).length == REQUIRED_PARAMS.length;
+    var validRequest = Object.keys(lodash.pick(message.request.data, REQUIRED_PARAMS)).length == REQUIRED_PARAMS.length;
 
     if (!validRequest) {
 	    message.response = {
@@ -25,8 +49,12 @@ angular.module('owsWalletPlugin.api').service('createInvoice', function(lodash, 
 			return callback(message);
     }
 
-    // Send the request to bitpay endpoint.
-    var bitpay = new CHttp('https://bitpay.com/api/');
+	  // Request parameters.
+    var config = message.request.data.config;
+    var data = message.request.data.data;
+
+    // Send the request to the bitpay service.
+    var bitpay = new CHttp(config.api.url);
     bitpay.post('/invoices', data).then(function(reponse) {
 	    message.response = {
 	      statusCode: 200,

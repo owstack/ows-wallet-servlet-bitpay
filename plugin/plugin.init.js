@@ -10,18 +10,18 @@ angular.module('owsWalletPlugin').config(function() {
   // Listen for the client service to become ready, do some initialization.
   $rootScope.$on('$pre.ready', function(event, session) {
 
-	  /**
-	   * API routes for our service.
-	   * A match is made by searching routes in order, the first match returns the route.
-	   */
-
-	  ApiRouter.addRoutes([
-	    { path: '/bitpay/invoices', method: 'POST', handler: 'createInvoice' }
-	  ]);
+    /**
+     * API routes for our service.
+     * A match is made by searching routes in order, the first match returns the route.
+     */
+    ApiRouter.addRoutes(session, [
+      { path: '/bitpay/invoices', method: 'POST',  handler: 'createInvoice' }
+    ]);
 
     bitpayService.init(session, function() {
     	// Nothing else to do.
     });
+
   });
 
 });
