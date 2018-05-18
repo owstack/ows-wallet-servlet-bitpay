@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletPlugin.api').service('createInvoice', function(lodash, CHttp, CSession) {
+angular.module('owsWalletPlugin.api').service('createInvoice', function(lodash, Http, Session, System) {
 
 	var root = {};
 
@@ -37,41 +37,55 @@ angular.module('owsWalletPlugin.api').service('createInvoice', function(lodash, 
 	];
 
   root.respond = function(message, callback) {
-    // Check required parameters.
-    var validRequest = Object.keys(lodash.pick(message.request.data, REQUIRED_PARAMS)).length == REQUIRED_PARAMS.length;
-
-    if (!validRequest) {
+		// Check required parameters.
+		var missing = System.checkRequired(REQUIRED_PARAMS, message.request.data);
+    if (missing.length > 0) {
 	    message.response = {
 	      statusCode: 400,
-	      statusText: 'The request must include ' + REQUIRED_PARAMS.toString() + '.',
+	      statusText: 'The request does not include ' + missing.toString() + '.',
 	      data: {}
 	    };
 			return callback(message);
     }
 
-	  // Request parameters.
-    var config = message.request.data.config;
+    var pluginConfig = message.request.data.config;
+
+    // Set $http config.
+    var config = {
+      headers: {
+				'Content-Type': 'application/json',
+				'x-accept-version': '2.0.0'
+      }
+    };
+
     var data = message.request.data.data;
+    data.token = pluginConfig.api.auth.token;
+    data.guid = Http.guid();
 
     // Send the request to the bitpay service.
-    var bitpay = new CHttp(config.api.url);
-    bitpay.post('/invoices', data).then(function(reponse) {
+    var http = new Http(pluginConfig.api.url, config);
+    http.post('invoices/', data).then(function(response) {
+    	if (response.data.error) {
+    		throw new Error(response.data.error);
+    	}
+
 	    message.response = {
 	      statusCode: 200,
 	      statusText: 'OK',
-	      data: response
+	      data: response.data.data
 	    };
 			return callback(message);
 
     }).catch(function(error) {
 	    message.response = {
 	      statusCode: 400,
-	      statusText: error,
+	      statusText: error.message || error,
 	      data: {}
 	    };
 			return callback(message);
 
     });
+
 	};
 
   return root;

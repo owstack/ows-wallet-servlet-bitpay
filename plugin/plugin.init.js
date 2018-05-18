@@ -1,26 +1,22 @@
 'use strict';
 
-angular.module('owsWalletPlugin').config(function() {
+angular.module('owsWalletPlugin').config(function($pluginConfigProvider) {
 
-  // Nothing to do.
+  /**
+   * API routes for our service.
+   * A match is made by searching routes in order, the first match returns the route.
+   */
+  $pluginConfigProvider.router.routes([
+    { path: '/bitpay/invoices', method: 'POST',  handler: 'createInvoice' }
+  ]);
 
 })
-.run(function($rootScope, ApiRouter, bitpayService) {
+.run(function(bitpayService) {
+  // Bump bitpayService.
 
-  // Listen for the client service to become ready, do some initialization.
-  $rootScope.$on('$pre.ready', function(event, session) {
+  owswallet.Plugin.ready(function() {
 
-    /**
-     * API routes for our service.
-     * A match is made by searching routes in order, the first match returns the route.
-     */
-    ApiRouter.addRoutes(session, [
-      { path: '/bitpay/invoices', method: 'POST',  handler: 'createInvoice' }
-    ]);
-
-    bitpayService.init(session, function() {
-    	// Nothing else to do.
-    });
+    // Do initialization here.
 
   });
 

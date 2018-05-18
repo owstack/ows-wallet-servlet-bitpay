@@ -1,10 +1,9 @@
 'use strict';
 
-angular.module('owsWalletPlugin.services').service('bitpayService', function ($rootScope, apiLog) {
+angular.module('owsWalletPlugin.services').service('bitpayService', function ($rootScope, pLog) {
 
   var root = {};
   var SESSION_KEY_DATA = 'data';
-  var session;
 
   // Event '$pre.beforeLeave' is fired after the user clicks to close this plugin but before this plugin controller
   // is destroyed.  When this event is received we update our session data. Before the plugin session is destroyed
@@ -16,17 +15,6 @@ angular.module('owsWalletPlugin.services').service('bitpayService', function ($r
   // Our persistent datastore.
   root.data = {};
 
-  // Initialize our environment.
-  root.init = function(sessionObj, cb) {
-    // Hold on to my session object.
-    session = sessionObj;
-
-    // Set some properties.
-    root.servletName = session.plugin.header.name;
-
-    cb();
-  };
-
   // Read plugin data from persistent storage via the session object. Here we read from a data key that stores
   // our plugin data as saved the last time this plugin was run.  If this is the first time this plugin has run
   // then the returned data will be empty.
@@ -35,7 +23,7 @@ angular.module('owsWalletPlugin.services').service('bitpayService', function ($r
     session.get(SESSION_KEY_DATA).then(function(value) {
       cb(null, value);
     }).catch(function(error) {
-      apiLog.error("Failed to read preferences: " + error.message + ' (' + error.statusCode + ')');
+      pLog.error("Failed to read preferences: " + error.message + ' (' + error.statusCode + ')');
       cb(error);
     });
   };

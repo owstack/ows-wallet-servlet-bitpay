@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('owsWalletPlugin.api').factory('CBitPay', function (lodash, ApiMessage, CSession) {
+angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, ApiMessage, Session) {
+
+  var id = 'org.openwalletstack.wallet.plugin.servlet.bitpay';
 
   /**
    * Constructor.
@@ -25,11 +27,10 @@ angular.module('owsWalletPlugin.api').factory('CBitPay', function (lodash, ApiMe
    * invoice.required - an array of strings listing the required field for creating an invoice.
    *   Exmaple ['buyer.name', 'buyer.email', 'buyer.phone' , 'buyer.address1' , 'buyer.locality', 'buyer.region', 'buyer.postalCode']
    */
-  function CBitPay(store) {
-    var config = CSession.getInstance().plugin.dependencies['org.openwalletstack.wallet.plugin.servlet.bitpay'][store];
-
+  function BitPay(store) {
+    var config = Session.getInstance().plugin.dependencies[id][store];
     if (!config) {
-      return;
+      throw new Error('Could not create instance of BitPay, check plugin configuration');
     }
 
     /**
@@ -77,7 +78,7 @@ angular.module('owsWalletPlugin.api').factory('CBitPay', function (lodash, ApiMe
           config: config,
           data: data
         },
-        responseObj: 'CBitPayInvoice'
+        responseObj: 'Invoice'
       }
 
       return new ApiMessage(request).send();
@@ -85,16 +86,20 @@ angular.module('owsWalletPlugin.api').factory('CBitPay', function (lodash, ApiMe
 
     return this;
   };
+
+  BitPay.id = function() {
+    return id;
+  };
  
-  return CBitPay;
+  return BitPay;
 });
 
 'use strict';
 
-angular.module('owsWalletPlugin.api').factory('CBitPayInvoice', function (lodash) {
+angular.module('owsWalletPlugin.api').factory('Invoice', function (lodash) {
 
   /**
-   * Sample invoice reponse
+   * Sample invoice response
    * {
    *   "facade":"pos/invoice",
    *   "data":{
@@ -127,15 +132,15 @@ angular.module('owsWalletPlugin.api').factory('CBitPayInvoice', function (lodash
    */
 
   /**
-   * Constructor.  An instance of this class must be obtained from CBitPay.
+   * Constructor.  An instance of this class must be obtained from BitPay.
    * @param {Object} plugin - An internal BitPay invoice object.
-   * @return {Object} An instance of CBitPayInvoice.
+   * @return {Object} An instance of Invoice.
    * @constructor
    */
-  function CBitPayInvoice(invoiceObj) {
+  function Invoice(invoiceObj) {
     lodash.assign(this, invoiceObj);
     return this;
   };
  
-  return CBitPayInvoice;
+  return Invoice;
 });

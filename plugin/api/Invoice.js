@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('owsWalletPlugin.api').factory('CBitPayInvoice', function (lodash) {
+angular.module('owsWalletPlugin.api').factory('Invoice', function (lodash) {
 
   /**
-   * Sample invoice reponse
+   * Sample invoice response
    * {
    *   "facade":"pos/invoice",
    *   "data":{
@@ -36,15 +36,15 @@ angular.module('owsWalletPlugin.api').factory('CBitPayInvoice', function (lodash
    */
 
   /**
-   * Constructor.  An instance of this class must be obtained from CBitPay.
+   * Constructor.  An instance of this class must be obtained from BitPay.
    * @param {Object} plugin - An internal BitPay invoice object.
-   * @return {Object} An instance of CBitPayInvoice.
+   * @return {Object} An instance of Invoice.
    * @constructor
    */
-  function CBitPayInvoice(invoiceObj) {
+  function Invoice(invoiceObj) {
     lodash.assign(this, invoiceObj);
     return this;
   };
  
-  return CBitPayInvoice;
+  return Invoice;
 });
