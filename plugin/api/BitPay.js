@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, ApiMessage, Session) {
+angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, pLog, ApiMessage, Session, Transaction, popupService) {
 
-  var id = 'org.openwalletstack.wallet.plugin.servlet.bitpay';
+  var pluginId = 'org.openwalletstack.wallet.plugin.servlet.bitpay';
 
   /**
    * Constructor.
@@ -28,7 +28,9 @@ angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, ApiMes
    *   Exmaple ['buyer.name', 'buyer.email', 'buyer.phone' , 'buyer.address1' , 'buyer.locality', 'buyer.region', 'buyer.postalCode']
    */
   function BitPay(store) {
-    var config = Session.getInstance().plugin.dependencies[id][store];
+    var self = this;
+
+    var config = Session.getInstance().plugin.dependencies[pluginId][store];
     if (!config) {
       throw new Error('Could not create instance of BitPay, check plugin configuration');
     }
@@ -69,8 +71,7 @@ angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, ApiMes
      *   notificationURL: <string>
      * }
      */
-    this.createInvoice = function(data, callback) {
-      var self = this;
+    this.createInvoice = function(data) {
       var request = {
         method: 'POST',
         url: '/bitpay/invoices',
@@ -84,11 +85,50 @@ angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, ApiMes
       return new ApiMessage(request).send();
     };
 
+    /*
+     *
+     */
+    this.sendPayment = function(wallet, data, confirmHandler) {
+      return self.createInvoice(data).then(function(invoice) {
+        pLog.debug('Got invoice: ' + JSON.stringify(invoice));
+
+        // Create an accessor for the payment URL.
+        var c = wallet.currency.toUpperCase();
+
+        // Create a new transaction for paying the invoice.
+        return new Transaction({
+          walletId: wallet.id,
+          urlOrAddress: invoice.paymentCodes[c].BIP73
+        });
+
+      }).then(function(tx) {
+
+        if (tx.shouldConfirm) {
+          confirmHandler().then(function() {
+            tx.send();
+
+          }).catch(function() {
+            // User did not confirm.
+            // Catch and discard.
+          });
+
+        } else {
+          tx.send();
+
+        }
+        return;
+
+      }).catch(function(error) {
+        pLog.error('BitPay.sendPayment():' + error.message + ', detail:' + error.detail);
+        throw new Error(error.message);
+      });
+    };
+
     return this;
   };
 
-  BitPay.id = function() {
-    return id;
+  BitPay.pluginId = function() {
+    return pluginId;
   };
  
   return BitPay;

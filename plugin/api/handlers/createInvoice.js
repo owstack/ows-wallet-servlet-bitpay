@@ -42,14 +42,49 @@ angular.module('owsWalletPlugin.api').service('createInvoice', function(lodash, 
     if (missing.length > 0) {
 	    message.response = {
 	      statusCode: 400,
-	      statusText: 'The request does not include ' + missing.toString() + '.',
-	      data: {}
+	      statusText: 'REQUEST_NOT_VALID',
+	      data: {
+	      	message: 'The request does not include ' + missing.toString() + '.'
+	      }
 	    };
 			return callback(message);
     }
 
     var pluginConfig = message.request.data.config;
 
+    var url = pluginConfig.api.url;
+    var token = pluginConfig.api.auth.token;
+    var data = message.request.data.data;
+
+    var invoice;
+
+    createInvoice(url, token, data).then(function(response) {
+    	invoice = response.data.data;
+			return setBuyerSelectedTransactionCurrency(url, invoice.id, 'BTC'); // TODO: fix when understand how this works
+
+    }).then(function(response) {
+
+	    message.response = {
+	      statusCode: 200,
+	      statusText: 'OK',
+	      data: invoice
+	    };
+			return callback(message);
+
+    }).catch(function(error) {
+
+	    message.response = {
+	      statusCode: 400,
+	      statusText: 'CREATE_INVOICE_ERROR',
+	      data: {
+	      	message: error
+	      }
+	    };
+	    return callback(message);
+    });
+	};
+
+	function createInvoice(url, token, data) {
     // Set $http config.
     var config = {
       headers: {
@@ -58,34 +93,30 @@ angular.module('owsWalletPlugin.api').service('createInvoice', function(lodash, 
       }
     };
 
-    var data = message.request.data.data;
-    data.token = pluginConfig.api.auth.token;
+    data.token = token;
     data.guid = Http.guid();
 
     // Send the request to the bitpay service.
-    var http = new Http(pluginConfig.api.url, config);
-    http.post('invoices/', data).then(function(response) {
-    	if (response.data.error) {
-    		throw new Error(response.data.error);
-    	}
+    var http = new Http(url, config);
+    return http.post('invoices/', data);
+	};
 
-	    message.response = {
-	      statusCode: 200,
-	      statusText: 'OK',
-	      data: response.data.data
-	    };
-			return callback(message);
+	function setBuyerSelectedTransactionCurrency(url, invoiceId, currency) {
+    // Set $http config.
+    var config = {
+      headers: {
+				'Content-Type': 'application/json',
+				'x-accept-version': '2.0.0'
+      }
+    };
 
-    }).catch(function(error) {
-	    message.response = {
-	      statusCode: 400,
-	      statusText: error.message || error,
-	      data: {}
-	    };
-			return callback(message);
+		var data = {
+			buyerSelectedTransactionCurrency: currency,
+			invoiceId: invoiceId
+		};
 
-    });
-
+    var http = new Http(url, config);
+    return http.post('invoiceData/setBuyerSelectedTransactionCurrency/', data);
 	};
 
   return root;
