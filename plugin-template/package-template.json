@@ -21,7 +21,7 @@
     "url": "*GITHUBREPOBUGS*"
   },
   "dependencies": {
-    "@owstack/ows-wallet-plugin-client": "^0.0.31"
+    "@owstack/ows-wallet-plugin-client": "^0.0.32"
   },
   "scripts": {
     "watch":             "grunt watch",
