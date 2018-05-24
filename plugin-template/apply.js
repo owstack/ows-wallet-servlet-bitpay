@@ -40,8 +40,8 @@ var config = JSON.parse(configBlob, 'utf8');
 // Set internal config key values.
 // If the plugin package includes an npm organization (i.e., starts with '@') then the plugin path is one level deeper than without.
 config.rootRelative = {};
-config.rootRelative.dev = '../';
-config.rootRelative.rel = (config.packageName.indexOf('@') == 0 ? '../../../' : '../../');
+config.rootRelative.dev = '../../';
+config.rootRelative.rel = (config.packageName.indexOf('@') == 0 ? '../../../../' : '../../../');
 
 console.log('Applying ' + config.nameCase + ' template');
 
