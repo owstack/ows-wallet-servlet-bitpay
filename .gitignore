@@ -54,19 +54,9 @@ Session.vim
 
 # SASS
 .sass-cache
-plugin/shared/sass/overrides
 
-# www and api
+# Build generated content
 # All content copied into place by grunt.
 www/*
 api/*
-
-# templates
-/ionic.config.json
-/plugin.json
 plugin/index.html
-plugin/index.html.release
-
-# Generated resources and assets
-resources/*
-plugin/assets/img

@@ -7,6 +7,9 @@ module.exports = function(grunt) {
   // Project Configuration
   grunt.initConfig({
     exec: {
+      build: {
+        command: 'node ./util/build.js'
+      },
       clean: {
         command: 'rm -Rf bower_components node_modules'
       }
@@ -94,16 +97,6 @@ module.exports = function(grunt) {
         dest: 'api/api.js'
       },
     },
-    uglify: {
-      options: {
-        mangle: false
-      },
-      release: {
-        files: {
-          'www/js/plugin.js': ['www/js/plugin.js']
-        }
-      }
-    },
     nggettext_extract: {
       pot: {
         files: {
@@ -174,24 +167,6 @@ module.exports = function(grunt) {
         ],
         dest: 'www/skins/'
       },
-      ionic_fonts: {
-        expand: true,
-        flatten: true,
-        src: 'bower_components/ionic/release/fonts/ionicons.*',
-        dest: 'www/fonts/'
-      },
-      ionic_css: {
-        expand: true,
-        flatten: true,
-        src: 'bower_components/ionic/release/css/ionic.min.css',
-        dest: 'www/css/'
-      },      
-      ionic_js: {
-        expand: true,
-        flatten: true,
-        src: 'bower_components/ionic/release/js/ionic.bundle.min.js',
-        dest: 'www/lib/'
-      },      
       release: {
         expand: true,
         flatten: false,
@@ -202,63 +177,40 @@ module.exports = function(grunt) {
           'plugin.json'
         ],
         dest: 'release/'
+      }
+    },
+    uglify: {
+      options: {
+        mangle: false
       },
-      release_plugin_index: {
-        expand: true,
-        flatten: false,
-        cwd: 'plugin/',
-        src: 'index.html.release',
-        dest: 'release/www/',
-        rename: function (dest, src) {
-          return dest + src.replace('.release', '');
+      release: {
+        files: {
+          'release/www/js/plugin.js': ['release/www/js/plugin.js']
         }
-      },
-      pre_js: {
-        expand: false,
-        flatten: false,
-        cwd: '',
-        src: 'node_modules/@owstack/ows-wallet-plugin-client/release/ows-wallet-pre.min.js',
-        dest: 'www/lib/ows-wallet-pre.js'
-      },
-      pre_css: {
-        expand: false,
-        flatten: false,
-        cwd: '',
-        src: 'node_modules/@owstack/ows-wallet-plugin-client/release/ows-wallet-pre.css',
-        dest: 'www/css/ows-wallet-pre.css'
       }
     }
   });
 
-  grunt.registerTask('base', [
+  grunt.registerTask('default', [
+    'clean:release',
     'clean:api',
     'clean:www',
     'sass',
     'concat:plugin_js',
     'concat:plugin_api_js',
     'concat:plugin_css',
+    'exec:build',
     'copy:plugin_index',
     'copy:plugin_views',
     'copy:plugin_shared',
     'copy:plugin_imgs',
-    'copy:plugin_skins'
-  ]);
-
-  grunt.registerTask('default', [
-    'base',
-    'copy:pre_js',
-    'copy:pre_css',
-    'copy:ionic_fonts',
-    'copy:ionic_css',
-    'copy:ionic_js'
+    'copy:plugin_skins',
+    'copy:release'
   ]);
 
   grunt.registerTask('release', [
-    'base',
-    'uglify',
-    'clean:release',
-    'copy:release',
-    'copy:release_plugin_index'
+    'default',
+    'uglify'
   ]);
 
   grunt.registerTask('translate', ['nggettext_extract']);

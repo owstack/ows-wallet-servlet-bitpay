@@ -1,15 +1,15 @@
 {
   "header": {
-    "id": "*PLUGINID*",
-    "kind": "*PLUGINKIND*",
-    "name": "*USERVISIBLENAME*",
-    "version": "*VERSION*",
-    "description": "*DESCRIPTION*",
-    "author": "*AUTHOR*",
+    "id": "org.openwalletstack.wallet.plugin.servlet.bitpay",
+    "kind": "servlet",
+    "name": "BitPay",
+    "version": "0.0.11",
+    "description": "An OWS Wallet servlet plugin for the BitPay API.",
+    "author": "Open Wallet Stack",
     "url": {
-      "marketing": "*URL*",
-      "support": "*SUPPORTURL*",
-      "privacy": "*DISCLAIMERURL*"
+      "marketing": "https://openwalletstack.org",
+      "support": "https://github.com/owstack/ows-wallet-servlet-bitpay/issues",
+      "privacy": "https://openwalletstack.org/disclaimer"
     }
   },
   "permissions": {
