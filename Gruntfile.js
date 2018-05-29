@@ -191,7 +191,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('default', [
+  grunt.registerTask('dev', [
     'clean:release',
     'clean:api',
     'clean:www',
@@ -208,8 +208,8 @@ module.exports = function(grunt) {
     'copy:release'
   ]);
 
-  grunt.registerTask('release', [
-    'default',
+  grunt.registerTask('default', [
+    'dev',
     'uglify'
   ]);
 
