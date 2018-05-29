@@ -42,7 +42,7 @@ angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, $log, 
     /**
      * Create a new invoice.
      * @param {Object} data - Payment request data.
-     * @return {Promise<CBitPayInvoice>} A promise for the invoice.
+     * @return {Promise<Invoice>} A promise for the invoice.
      *
      * @See https://bitpay.com/api#resource-Invoices
      *
@@ -85,8 +85,13 @@ angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, $log, 
       return new ApiMessage(request).send();
     };
 
-    /*
-     *
+    /**
+     * Convenience function to send a payment through this BitPay instance. This function handles creating the invoice,
+     * creating the wallet transaction, confirming the transaction, and sending the payment.
+     * @param {Object} wallet - A Wallet object.
+     * @param {Object} data - An Invoice object.
+     * @param {function} confirmHanlder - A function that is called when the payment must be confirmed before sending.
+     * @return {Promise} A promise at completion.
      */
     this.sendPayment = function(wallet, data, confirmHandler) {
       return self.createInvoice(data).then(function(invoice) {
