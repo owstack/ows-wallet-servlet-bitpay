@@ -9,7 +9,8 @@
     "url": {
       "marketing": "https://openwalletstack.org",
       "support": "https://github.com/owstack/ows-wallet-servlet-bitpay/issues",
-      "privacy": "https://openwalletstack.org/disclaimer"
+      "privacy": "https://openwalletstack.org/disclaimer",
+      "terms": "https://openwalletstack.org/terms"
     }
   },
   "permissions": {

@@ -66,7 +66,7 @@ function createIndexHtml() {
   if (plugin.header.kind == 'applet') {
     config.plugincss = {};
     config.plugincss = '\n  <link rel="stylesheet" type="text/css" href="' + config.rootRelative + 'css/ionic.min.css">';
-    config.plugincss += '\n  <link rel="stylesheet" type="text/css" href="' + config.rootRelative + 'css/ows-wallet-pre-applet.css">';
+    config.plugincss += '\n  <link rel="stylesheet" type="text/css" href="' + config.rootRelative + 'css/ows-wallet-applet.css">';
   } else {
     config.plugincss = '';
   }

@@ -16,7 +16,8 @@
   </ion-nav-view>
 
   <script type="application/javascript" src="*ROOTRELATIVE*lib/ionic.bundle.min.js"></script>
-  <script type="application/javascript" src="*ROOTRELATIVE*lib/ows-wallet-pre-*PLUGINKIND*.min.js"></script>
+  <script type="application/javascript" src="*ROOTRELATIVE*lib/ows-wallet-client.min.js"></script>
+  <script type="application/javascript" src="*ROOTRELATIVE*lib/ows-wallet-*PLUGINKIND*.min.js"></script>
   <script type="application/javascript" src="js/plugin.js"></script>
   <script type="application/javascript" src="*ROOTRELATIVE*lib/ows-wallet-plugin-apis.js"></script>
 

@@ -1,16 +1,16 @@
- { 
-  "//": "Changes to this file will be overwritten, modify it at plugin-template/ only.", 
+{
   "header": {
     "id": "org.openwalletstack.wallet.plugin.servlet.bitpay",
     "kind": "servlet",
-    "name": "BitPay Servlet",
+    "name": "BitPay",
     "version": "0.0.11",
-    "description": "An OWS Wallet servlet plugin for BitPay API.",
+    "description": "An OWS Wallet servlet plugin for the BitPay API.",
     "author": "Open Wallet Stack",
     "url": {
       "marketing": "https://openwalletstack.org",
       "support": "https://github.com/owstack/ows-wallet-servlet-bitpay/issues",
-      "privacy": "https://openwalletstack.org/disclaimer"
+      "privacy": "https://openwalletstack.org/disclaimer",
+      "terms": "https://openwalletstack.org/terms"
     }
   },
   "permissions": {

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletPlugin.services').service('bitpayService', function ($rootScope, pLog) {
+angular.module('owsWalletPlugin.services').service('bitpayService', function ($rootScope, $log) {
 
   var root = {};
   var SESSION_KEY_DATA = 'data';
@@ -23,7 +23,7 @@ angular.module('owsWalletPlugin.services').service('bitpayService', function ($r
     session.get(SESSION_KEY_DATA).then(function(value) {
       cb(null, value);
     }).catch(function(error) {
-      pLog.error("Failed to read preferences: " + error.message + ' (' + error.statusCode + ')');
+      $log.error("Failed to read preferences: " + error.message + ' (' + error.statusCode + ')');
       cb(error);
     });
   };

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, pLog, ApiMessage, Session, Transaction, popupService) {
+angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, $log, ApiMessage, Session, Transaction, popupService) {
 
   var pluginId = 'org.openwalletstack.wallet.plugin.servlet.bitpay';
 
@@ -90,7 +90,7 @@ angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, pLog, 
      */
     this.sendPayment = function(wallet, data, confirmHandler) {
       return self.createInvoice(data).then(function(invoice) {
-        pLog.debug('Got invoice: ' + JSON.stringify(invoice));
+        $log.debug('Got invoice: ' + JSON.stringify(invoice));
 
         // Create an accessor for the payment URL.
         var c = wallet.currency.toUpperCase();
@@ -119,7 +119,7 @@ angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, pLog, 
         return;
 
       }).catch(function(error) {
-        pLog.error('BitPay.sendPayment():' + error.message + ', detail:' + error.detail);
+        $log.error('BitPay.sendPayment():' + error.message + ', detail:' + error.detail);
         throw new Error(error.message);
       });
     };
