@@ -10,8 +10,10 @@
       "marketing": "https://openwalletstack.org",
       "support": "https://github.com/owstack/ows-wallet-servlet-bitpay/issues",
       "privacy": "https://openwalletstack.org/disclaimer",
-      "terms": "https://openwalletstack.org/terms"
-    }
+      "terms": "https://openwalletstack.org/terms",
+      "git": "https://github.com/owstack/ows-wallet-plugin-bitpay/"
+    },
+    "commitHash": "493fc74"
   },
   "permissions": {
     "delete": false
