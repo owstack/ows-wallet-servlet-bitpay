@@ -30,7 +30,7 @@ angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, $log, 
   function BitPay(store) {
     var self = this;
 
-    var config = Session.getInstance().plugin.dependencies[pluginId][store];
+    var config = Session.getInstance().plugin.dependencies[BitPay.pluginId][store];
     if (!config) {
       throw new Error('Could not create instance of BitPay, check plugin configuration');
     }
