@@ -7,7 +7,7 @@ angular.module('owsWalletPlugin').config(function($pluginConfigProvider) {
    * A match is made by searching routes in order, the first match returns the route.
    */
   $pluginConfigProvider.router.routes([
-    { path: '/bitpay/invoices', method: 'POST',  handler: 'createInvoice' }
+    { path: '/bitpay/invoices', method: 'POST', handler: 'createInvoice' }
   ]);
 
 })

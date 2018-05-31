@@ -1,12 +1,12 @@
 'use strict';
 
-angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, $log, ApiMessage, Session, Transaction, popupService) {
+angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, $log, ApiMessage, Session, Transaction) {
 
-  var pluginId = 'org.openwalletstack.wallet.plugin.servlet.bitpay';
+  BitPay.pluginId = 'org.openwalletstack.wallet.plugin.servlet.bitpay';
 
   /**
    * Constructor.
-   * @param {Object} config - The configuration for the servlet.
+   * @param {Object} config - The configuration ID for the servlet.
    * @constructor
    *
    * config = {
@@ -130,10 +130,6 @@ angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, $log, 
     };
 
     return this;
-  };
-
-  BitPay.pluginId = function() {
-    return pluginId;
   };
  
   return BitPay;
