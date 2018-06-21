@@ -1,8 +1,6 @@
 'use strict';
 
-angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, $log, ApiMessage, Session, Transaction) {
-
-  BitPay.pluginId = 'org.openwalletstack.wallet.plugin.servlet.bitpay';
+angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, $log, ApiMessage, BitPayServlet, PluginAPIHelper, Transaction) {
 
   /**
    * Constructor.
@@ -27,13 +25,12 @@ angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, $log, 
    * invoice.required - an array of strings listing the required field for creating an invoice.
    *   Exmaple ['buyer.name', 'buyer.email', 'buyer.phone' , 'buyer.address1' , 'buyer.locality', 'buyer.region', 'buyer.postalCode']
    */
-  function BitPay(store) {
+  function BitPay(configId) {
     var self = this;
 
-    var config = Session.getInstance().plugin.dependencies[BitPay.pluginId][store];
-    if (!config) {
-      throw new Error('Could not create instance of BitPay, check plugin configuration');
-    }
+    var servlet = new PluginAPIHelper(BitPayServlet);
+    var apiRoot = servlet.apiRoot();
+    var config = servlet.getConfig(configId);
 
     /**
      * Public functions
@@ -74,13 +71,13 @@ angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, $log, 
     this.createInvoice = function(data) {
       var request = {
         method: 'POST',
-        url: '/bitpay/invoices',
+        url: apiRoot + '/bitpay/invoices',
         data: {
           config: config,
           data: data
         },
         responseObj: 'Invoice'
-      }
+      };
 
       return new ApiMessage(request).send();
     };
@@ -137,37 +134,44 @@ angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, $log, 
 
 'use strict';
 
+angular.module('owsWalletPlugin.api').constant('BitPayServlet', 
+{
+  id: 'org.openwalletstack.wallet.plugin.servlet.bitpay'
+});
+
+'use strict';
+
 angular.module('owsWalletPlugin.api').factory('Invoice', function (lodash) {
 
   /**
    * Sample invoice response
    * {
-   *   "facade":"pos/invoice",
-   *   "data":{
-   *     "url":"https://bitpay.com/invoice?id=DNN1kKv76MMH1jpDJZpcgH",
-   *     "status":"new",
-   *     "btcPrice":"0.228969",
-   *     "btcDue":"0.228969",
-   *     "price":100,
-   *     "currency":"USD",
-   *     "exRates":{
-   *       "USD":436.74
+   *   facade:'pos/invoice',
+   *   data:{
+   *     url:'https://bitpay.com/invoice?id=DNN1kKv76MMH1jpDJZpcgH',
+   *     status:'new',
+   *     btcPrice:'0.228969',
+   *     btcDue:'0.228969',
+   *     price:100,
+   *     currency:'USD',
+   *     exRates:{
+   *       'USD':436.74
    *     },
-   *     "invoiceTime":1450723391747,
-   *     "expirationTime":1450724291747,
-   *     "currentTime":1450723391896,
-   *     "guid":"1450723391611",
-   *     "id":"DNN1kKv76MMH1jpDJZpcgH",
-   *     "btcPaid":"0.000000",
-   *     "rate":436.74,
-   *     "exceptionStatus":false,
-   *     "paymentUrls":{
-   *       "BIP21":"bitcoin:1JQjMP4QM9WP2zXa9qPbaPZ9sfTcqVXTvA?amount=0.228969",
-   *       "BIP72":"bitcoin:1JQjMP4QM9WP2zXa9qPbaPZ9sfTcqVXTvA?amount=0.228969&r=https://bitpay.com/i/DNN1kKv76MMH1jpDJZpcgH",
-   *       "BIP72b":"bitcoin:?r=https://bitpay.com/i/DNN1kKv76MMH1jpDJZpcgH",
-   *       "BIP73":"https://bitpay.com/i/DNN1kKv76MMH1jpDJZpcgH"
+   *     invoiceTime:1450723391747,
+   *     expirationTime:1450724291747,
+   *     currentTime:1450723391896,
+   *     guid:'1450723391611',
+   *     id:'DNN1kKv76MMH1jpDJZpcgH',
+   *     btcPaid:'0.000000',
+   *     rate:436.74,
+   *     exceptionStatus:false,
+   *     paymentUrls:{
+   *       BIP21:'bitcoin:1JQjMP4QM9WP2zXa9qPbaPZ9sfTcqVXTvA?amount=0.228969',
+   *       BIP72:'bitcoin:1JQjMP4QM9WP2zXa9qPbaPZ9sfTcqVXTvA?amount=0.228969&r=https://bitpay.com/i/DNN1kKv76MMH1jpDJZpcgH',
+   *       BIP72b:'bitcoin:?r=https://bitpay.com/i/DNN1kKv76MMH1jpDJZpcgH',
+   *       BIP73:'https://bitpay.com/i/DNN1kKv76MMH1jpDJZpcgH'
    *     },
-   *     "token":"2N4ZLhiqcncAT8met5SVxLPfrZGAc92RaECR6PSFikdjvMw8jCGKSvHc1ByWYtzWLm"
+   *     token:2N4ZLhiqcncAT8met5SVxLPfrZGAc92RaECR6PSFikdjvMw8jCGKSvHc1ByWYtzWLm'
    *   }
    * }
    */

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletPlugin.api').service('createInvoice', function(lodash, Http, Session, System) {
+angular.module('owsWalletPlugin.api').service('createInvoice', function(lodash, Http, Session, Utils) {
 
 	var root = {};
 
@@ -38,7 +38,7 @@ angular.module('owsWalletPlugin.api').service('createInvoice', function(lodash, 
 
   root.respond = function(message, callback) {
 		// Check required parameters.
-		var missing = System.checkRequired(REQUIRED_PARAMS, message.request.data);
+		var missing = Utils.checkRequired(REQUIRED_PARAMS, message.request.data);
     if (missing.length > 0) {
 	    message.response = {
 	      statusCode: 400,

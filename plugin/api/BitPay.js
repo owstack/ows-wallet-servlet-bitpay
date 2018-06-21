@@ -1,8 +1,6 @@
 'use strict';
 
-angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, $log, ApiMessage, Session, Transaction) {
-
-  BitPay.pluginId = 'org.openwalletstack.wallet.plugin.servlet.bitpay';
+angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, $log, ApiMessage, BitPayServlet, PluginAPIHelper, Transaction) {
 
   /**
    * Constructor.
@@ -27,13 +25,12 @@ angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, $log, 
    * invoice.required - an array of strings listing the required field for creating an invoice.
    *   Exmaple ['buyer.name', 'buyer.email', 'buyer.phone' , 'buyer.address1' , 'buyer.locality', 'buyer.region', 'buyer.postalCode']
    */
-  function BitPay(store) {
+  function BitPay(configId) {
     var self = this;
 
-    var config = Session.getInstance().plugin.dependencies[BitPay.pluginId][store];
-    if (!config) {
-      throw new Error('Could not create instance of BitPay, check plugin configuration');
-    }
+    var servlet = new PluginAPIHelper(BitPayServlet);
+    var apiRoot = servlet.apiRoot();
+    var config = servlet.getConfig(configId);
 
     /**
      * Public functions
@@ -74,13 +71,13 @@ angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, $log, 
     this.createInvoice = function(data) {
       var request = {
         method: 'POST',
-        url: '/bitpay/invoices',
+        url: apiRoot + '/bitpay/invoices',
         data: {
           config: config,
           data: data
         },
         responseObj: 'Invoice'
-      }
+      };
 
       return new ApiMessage(request).send();
     };

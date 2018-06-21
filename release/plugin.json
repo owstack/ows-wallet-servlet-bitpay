@@ -13,7 +13,7 @@
       "terms": "https://openwalletstack.org/terms",
       "git": "https://github.com/owstack/ows-wallet-plugin-bitpay/"
     },
-    "commitHash": "75e9082"
+    "commitHash": "e7a8608"
   },
   "permissions": {
     "delete": false
