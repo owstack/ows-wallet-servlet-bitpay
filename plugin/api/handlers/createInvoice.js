@@ -1,6 +1,9 @@
 'use strict';
 
-angular.module('owsWalletPlugin.api').service('createInvoice', function(lodash, Http, Session, Utils) {
+angular.module('owsWalletPlugin.apiHandlers').service('createInvoice', function(lodash,
+  /* @namespace owsWalletPluginClient.api */ Http,
+  /* @namespace owsWalletPluginClient.api */ Session,
+  /* @namespace owsWalletPluginClient.api */ Utils) {
 
 	var root = {};
 

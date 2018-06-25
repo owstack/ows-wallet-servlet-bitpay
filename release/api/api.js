@@ -1,6 +1,17 @@
 'use strict';
 
-angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, $log, ApiMessage, BitPayServlet, PluginAPIHelper, Transaction) {
+angular.module('owsWalletPlugin.api.bitpay', []).namespace().constant('BitPayServlet', 
+{
+  id: 'org.openwalletstack.wallet.plugin.servlet.bitpay'
+});
+
+'use strict';
+
+angular.module('owsWalletPlugin.api.bitpay').factory('BitPay', ['lodash', '$log', 'ApiMessage', 'owsWalletPlugin.api.bitpay.BitPayServlet', 'owsWalletPlugin.api.bitpay.Invoice', 'owsWalletPluginClient.api.PluginAPIHelper', 'owsWalletPluginClient.api.Transaction', function (lodash, $log, ApiMessage,
+  /* @namespace owsWalletPlugin.api.bitpay */ BitPayServlet,
+  /* @namespace owsWalletPlugin.api.bitpay */ Invoice,
+  /* @namespace owsWalletPluginClient.api */ PluginAPIHelper,
+  /* @namespace owsWalletPluginClient.api */ Transaction) {
 
   /**
    * Constructor.
@@ -75,11 +86,17 @@ angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, $log, 
         data: {
           config: config,
           data: data
-        },
-        responseObj: 'Invoice'
+        }
       };
 
-      return new ApiMessage(request).send();
+      return new ApiMessage(request).send().then(function(response) {
+        return new Invoice(response.data);
+
+      }).catch(function(error) {
+        $log.error('Bitpay.createInvoice():' + error.message + ', ' + error.detail);
+        throw new Error(error.message);
+        
+      });
     };
 
     /**
@@ -130,18 +147,11 @@ angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, $log, 
   };
  
   return BitPay;
-});
+}]);
 
 'use strict';
 
-angular.module('owsWalletPlugin.api').constant('BitPayServlet', 
-{
-  id: 'org.openwalletstack.wallet.plugin.servlet.bitpay'
-});
-
-'use strict';
-
-angular.module('owsWalletPlugin.api').factory('Invoice', function (lodash) {
+angular.module('owsWalletPlugin.api.bitpay').factory('Invoice', ['lodash', function (lodash) {
 
   /**
    * Sample invoice response
@@ -188,4 +198,4 @@ angular.module('owsWalletPlugin.api').factory('Invoice', function (lodash) {
   };
  
   return Invoice;
-});
+}]);

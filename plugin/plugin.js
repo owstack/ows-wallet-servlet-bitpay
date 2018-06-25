@@ -4,11 +4,9 @@ angular.module('owsWalletPlugin', [
 	'gettext',
 	'ngLodash',
 	'owsWalletPluginClient',
-	'owsWalletPlugin.api',
-  'owsWalletPlugin.controllers',
+  'owsWalletPlugin.apiHandlers',
   'owsWalletPlugin.services'
 ]);
 
-angular.module('owsWalletPlugin.api', []);
-angular.module('owsWalletPlugin.controllers', []);
+angular.module('owsWalletPlugin.apiHandlers', []);
 angular.module('owsWalletPlugin.services', []);

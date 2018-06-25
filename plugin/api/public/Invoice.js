@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletPlugin.api').factory('Invoice', function (lodash) {
+angular.module('owsWalletPlugin.api.bitpay').factory('Invoice', function (lodash) {
 
   /**
    * Sample invoice response

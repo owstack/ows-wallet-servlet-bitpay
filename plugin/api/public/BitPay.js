@@ -1,6 +1,10 @@
 'use strict';
 
-angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, $log, ApiMessage, BitPayServlet, PluginAPIHelper, Transaction) {
+angular.module('owsWalletPlugin.api.bitpay').factory('BitPay', function (lodash, $log, ApiMessage,
+  /* @namespace owsWalletPlugin.api.bitpay */ BitPayServlet,
+  /* @namespace owsWalletPlugin.api.bitpay */ Invoice,
+  /* @namespace owsWalletPluginClient.api */ PluginAPIHelper,
+  /* @namespace owsWalletPluginClient.api */ Transaction) {
 
   /**
    * Constructor.
@@ -75,11 +79,17 @@ angular.module('owsWalletPlugin.api').factory('BitPay', function (lodash, $log, 
         data: {
           config: config,
           data: data
-        },
-        responseObj: 'Invoice'
+        }
       };
 
-      return new ApiMessage(request).send();
+      return new ApiMessage(request).send().then(function(response) {
+        return new Invoice(response.data);
+
+      }).catch(function(error) {
+        $log.error('Bitpay.createInvoice():' + error.message + ', ' + error.detail);
+        throw new Error(error.message);
+        
+      });
     };
 
     /**
