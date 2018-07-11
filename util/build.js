@@ -83,8 +83,9 @@ function createIndexHtml() {
   // Insert css links if the plugin is an applet.
   if (plugin.header.kind == 'applet') {
     config.plugincss = {};
-    config.plugincss = '\n  <link rel="stylesheet" type="text/css" href="' + config.rootRelative + 'css/ionic.min.css">';
-    config.plugincss += '\n  <link rel="stylesheet" type="text/css" href="' + config.rootRelative + 'css/ows-wallet-applet.css">';
+    config.plugincss = '\n  <link rel="stylesheet" type="text/css" href="' + config.rootRelative + 'css/ionic.min.css">'; // Ionic css
+    config.plugincss += '\n  <link rel="stylesheet" type="text/css" href="' + config.rootRelative + 'css/ows-wallet-applet.css">'; // Applet lib css
+    config.plugincss += '\n  <link rel="stylesheet" type="text/css" href="css/main.css">'; // Plugin defined css
   } else {
     config.plugincss = '';
   }

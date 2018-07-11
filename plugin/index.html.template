@@ -7,7 +7,6 @@
   <meta name="msapplication-tap-highlight" content="no">
   <meta name="format-detection" content="telephone=no">
   <meta name="ows-wallet-plugin-kind" content="*PLUGINKIND*">*PLUGINCSS*
-  <link rel="stylesheet" type="text/css" href="css/main.css">
   <title>*PLUGINNAME*</title>
 </head>
 <body ng-app="owsWalletPlugin">
