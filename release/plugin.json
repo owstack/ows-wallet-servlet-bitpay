@@ -13,14 +13,14 @@
       "terms": "https://openwalletstack.org/terms",
       "git": "https://github.com/owstack/ows-wallet-plugin-bitpay/"
     },
-    "commitHash": "cbc08c1"
+    "commitHash": "3f45ed1"
   },
   "permissions": {
     "delete": false
   },
-  "galleryImage": "<plugin-path>/img/gallery.png",
-  "previewImage": "<plugin-path>/img/preview.png",
-  "iconImage": "<plugin-path>/img/icon.png",
+  "galleryImage": "img/gallery.png",
+  "previewImage": "img/preview.png",
+  "iconImage": "img/icon.png",
   "store": {
     "id": "0",
     "rating": "4+",
@@ -37,5 +37,6 @@
       "plugin",
       "servlet"
     ]
-  }
+  },
+  "dependencies": {}
 }

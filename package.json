@@ -20,17 +20,9 @@
   "bugs": {
     "url": "https://github.com/owstack/ows-wallet-plugin-starter/issues"
   },
-  "dependencies": {
-    "@owstack/ows-wallet-plugin-client": "^0.0.37"
-  },
-  "scripts": {
-    "start": "npm run build:www && ionic serve --no-livereload --nogulp -s --address 0.0.0.0",
-    "watch": "grunt watch",
-    "build:www": "grunt",
-    "build:www-release": "grunt release",
-    "final:www": "npm run build:www-release",
-    "test": "echo \"no package tests configured\"",
-    "clean-all": "git clean -dfx"
+  "dependencies": {},
+  "peerDependencies": {
+    "@owstack/ows-wallet-plugin-client": "0.x"
   },
   "devDependencies": {
     "fs": "0.0.2",
@@ -52,5 +44,14 @@
     "lodash": "^4.17.4",
     "shelljs": "^0.3.0",
     "trash-cli": "^1.4.0"
+  },
+  "scripts": {
+    "start": "npm run build:www && ionic serve --no-livereload --nogulp -s --address 0.0.0.0",
+    "watch": "grunt watch",
+    "build:www": "grunt",
+    "build:www-release": "grunt release",
+    "final:www": "npm run build:www-release",
+    "test": "echo \"no package tests configured\"",
+    "clean-all": "git clean -dfx"
   }
 }
