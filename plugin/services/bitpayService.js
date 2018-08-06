@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletPlugin.services').service('bitpayService', function ($rootScope, $log) {
+angular.module('owsWalletPlugin.services').service('bitpayService', function ($rootScope) {
 
   var root = {};
   var SESSION_KEY_DATA = 'data';
@@ -20,10 +20,9 @@ angular.module('owsWalletPlugin.services').service('bitpayService', function ($r
   // then the returned data will be empty.
   root.getData = function(cb) {
     cb = cb || function(){};
-    session.get(SESSION_KEY_DATA).then(function(value) {
+    session.getValue(SESSION_KEY_DATA).then(function(value) {
       cb(null, value);
     }).catch(function(error) {
-      $log.error("Failed to read preferences: " + error.message + ' (' + error.statusCode + ')');
       cb(error);
     });
   };

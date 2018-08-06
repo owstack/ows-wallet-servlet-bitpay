@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('owsWalletPlugin.api.bitpay').factory('BitPay', function (lodash, $log, ApiMessage,
+  /* @namespace owsWalletPluginClient.api */ ApiError,
   /* @namespace owsWalletPlugin.api.bitpay */ BitPayServlet,
   /* @namespace owsWalletPlugin.api.bitpay */ Invoice,
-  /* @namespace owsWalletPluginClient.api */ PluginAPIHelper,
+  /* @namespace owsWalletPluginClient.api */ PluginApiHelper,
   /* @namespace owsWalletPluginClient.api */ Transaction) {
 
   /**
@@ -32,7 +33,7 @@ angular.module('owsWalletPlugin.api.bitpay').factory('BitPay', function (lodash,
   function BitPay(configId) {
     var self = this;
 
-    var servlet = new PluginAPIHelper(BitPayServlet);
+    var servlet = new PluginApiHelper(BitPayServlet);
     var apiRoot = servlet.apiRoot();
     var config = servlet.getConfig(configId);
 
@@ -86,8 +87,7 @@ angular.module('owsWalletPlugin.api.bitpay').factory('BitPay', function (lodash,
         return new Invoice(response.data);
 
       }).catch(function(error) {
-        $log.error('Bitpay.createInvoice():' + error.message + ', ' + error.detail);
-        throw new Error(error.message);
+        throw new ApiError(error);
         
       });
     };
@@ -131,8 +131,7 @@ angular.module('owsWalletPlugin.api.bitpay').factory('BitPay', function (lodash,
         return;
 
       }).catch(function(error) {
-        $log.error('BitPay.sendPayment():' + error.message + ', detail:' + error.detail);
-        throw new Error(error.message);
+        throw new ApiError(error);
       });
     };
 
