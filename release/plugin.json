@@ -3,7 +3,7 @@
     "id": "org.openwalletstack.wallet.plugin.servlet.bitpay",
     "kind": "servlet",
     "name": "BitPay",
-    "version": "0.0.20",
+    "version": "0.0.21",
     "description": "An OWS Wallet servlet plugin for the BitPay API.",
     "author": "Open Wallet Stack",
     "url": {
@@ -13,7 +13,7 @@
       "terms": "https://openwalletstack.org/terms",
       "git": "https://github.com/owstack/ows-wallet-plugin-bitpay/"
     },
-    "commitHash": "c961229"
+    "commitHash": "9bc8253"
   },
   "permissions": {
     "delete": false
