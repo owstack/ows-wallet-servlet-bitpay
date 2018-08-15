@@ -49,6 +49,14 @@ angular.module('owsWalletPlugin.api.bitpay').factory('BitPay', ['lodash', '$log'
      */
 
     /**
+     * BitPay creates invoices in these currencies only.
+     * @return {array} An array of currency codes.
+     */
+     this.getInvoiceCurrencies = function() {
+       return ['BCH', 'BTC'];
+     };
+
+    /**
      * Create a new invoice.
      * @param {Object} data - Payment request data.
      * @return {Promise<Invoice>} A promise for the invoice.
