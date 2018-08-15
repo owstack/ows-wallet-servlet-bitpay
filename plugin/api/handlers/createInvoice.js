@@ -32,7 +32,7 @@ angular.module('owsWalletPlugin.apiHandlers').service('createInvoice', function(
    *   Example: ['buyer.name', 'buyer.email']
 	 */
 
-	var REQUIRED_PARAMS = [
+	var REQUIRED_DATA = [
 		'config.api.url',
 		'config.api.auth.token',
 		'data.price',
@@ -41,7 +41,7 @@ angular.module('owsWalletPlugin.apiHandlers').service('createInvoice', function(
 
   root.respond = function(message, callback) {
 		// Check required parameters.
-		var missing = Utils.checkRequired(REQUIRED_PARAMS, message.request.data);
+		var missing = Utils.checkRequired(REQUIRED_DATA, message.request.data);
     if (missing.length > 0) {
 	    message.response = {
 	      statusCode: 400,
