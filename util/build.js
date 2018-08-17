@@ -81,13 +81,17 @@ function createIndexHtml() {
   config.rootRelative = (pkg.name.indexOf('@') == 0 ? '../../../../' : '../../../');
 
   // Insert css links if the plugin is an applet.
+  config.plugincss = '';
   if (plugin.header.kind == 'applet') {
-    config.plugincss = {};
-    config.plugincss = '\n  <link rel="stylesheet" type="text/css" href="' + config.rootRelative + 'css/ionic.min.css">'; // Ionic css
-    config.plugincss += '\n  <link rel="stylesheet" type="text/css" href="' + config.rootRelative + 'css/ows-wallet-applet.css">'; // Applet lib css
+    config.plugincss += '\n  <link rel="stylesheet" type="text/css" href="' + config.rootRelative + 'css/animate.min.css">'; // Animate.css
+
+    if (plugin.linkHostCss == true) {
+      config.plugincss += '\n  <link rel="stylesheet" type="text/css" href="' + config.rootRelative + 'css/ows-wallet.css">'; // Host app css
+    } else {
+      config.plugincss += '\n  <link rel="stylesheet" type="text/css" href="' + config.rootRelative + 'css/ows-wallet-applet.css">'; // Applet lib css
+    }
+
     config.plugincss += '\n  <link rel="stylesheet" type="text/css" href="css/main.css">'; // Plugin defined css
-  } else {
-    config.plugincss = '';
   }
 
   // Read the index.html template.
