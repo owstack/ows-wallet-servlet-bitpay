@@ -2,7 +2,7 @@
   "name": "@owstack/ows-wallet-servlet-bitpay",
   "description": "An OWS Wallet servlet plugin for the BitPay API.",
   "author": "Open Wallet Stack",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "title": "BitPay",
   "keywords": [
     "ows",
